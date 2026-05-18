@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Omar Hamdia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if(localStorage.getItem('theme') === 'light') { document.documentElement.classList.add('light'); }
+        if(localStorage.getItem('lang') === 'en') { document.documentElement.dir = 'ltr'; document.documentElement.lang = 'en'; }
+    </script>
+</head>
+<body class="project-page">
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <header class="navbar scrolled" id="navbar">
+        <a href="index.html" class="logo grad-text">OMAR.</a>
+        <div class="nav-actions">
+            <a href="index.html" class="nav-link" id="navBack">← Back to Home</a>
+            <button id="themeToggle" class="icon-btn"><i class="bi bi-moon-fill"></i></button>
+            <button id="langToggle" class="btn-outline">EN</button>
+        </div>
+    </header>
+
+    <main class="container project-details-container" style="padding-top: 120px; padding-bottom: 80px;">
+        <!-- Injected via script.js -->
+        <div id="projectContent"></div>
+    </main>
+
+    <div id="lightbox" class="lightbox">
+        <button id="lightboxClose" class="lightbox-btn close"><i class="bi bi-x-lg"></i></button>
+        <button id="lightboxPrev" class="lightbox-btn prev"><i class="bi bi-chevron-left"></i></button>
+        <div class="lightbox-content">
+            <img id="lightboxImg" src="" alt="Screenshot">
+            <div id="lightboxCounter" class="lightbox-counter">1 / 4</div>
+        </div>
+        <button id="lightboxNext" class="lightbox-btn next"><i class="bi bi-chevron-right"></i></button>
+    </div>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="text-muted" id="footerCopy" style="margin-top: 0.8rem;">© 2026 Omar Hamdia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

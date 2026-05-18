@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omar Hamdia | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if(localStorage.getItem('theme') === 'light') { document.documentElement.classList.add('light'); }
+        if(localStorage.getItem('lang') === 'en') { document.documentElement.dir = 'ltr'; document.documentElement.lang = 'en'; }
+    </script>
+</head>
+<body>
+    <div id="preloader" class="preloader">
+        <div class="preloader-text">OMAR.</div>
+    </div>
+
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <nav class="side-nav desktop-only">
+        <a href="#home" class="side-link active" data-tooltip="Home"><i class="bi bi-house"></i></a>
+        <a href="#about" class="side-link" data-tooltip="About"><i class="bi bi-person"></i></a>
+        <a href="#services" class="side-link" data-tooltip="Services"><i class="bi bi-gear"></i></a>
+        <a href="#projects" class="side-link" data-tooltip="Projects"><i class="bi bi-grid"></i></a>
+        <a href="#testimonials" class="side-link" data-tooltip="Testimonials"><i class="bi bi-chat-quote"></i></a>
+        <a href="#contact" class="side-link" data-tooltip="Contact"><i class="bi bi-envelope"></i></a>
+    </nav>
+
+    <header class="navbar" id="navbar">
+        <a href="#" class="logo grad-text">OMAR.</a>
+        <div class="nav-actions">
+            <button id="themeToggle" class="icon-btn"><i class="bi bi-moon-fill"></i></button>
+            <button id="langToggle" class="btn-outline">EN</button>
+            <a href="#" id="whatsappBtn" class="btn-primary nav-cta desktop-only" target="_blank">
+                <i class="bi bi-whatsapp"></i> <span id="whatsappText">WhatsApp</span>
+            </a>
+            <!-- Mobile Menu Btn removed from here to be placed in bottom nav -->
+            <button id="mobileMenuBtn" class="icon-btn mobile-menu-btn"><i class="bi bi-list"></i></button>
+        </div>
+    </header>
+
+    <div id="mobileMenu" class="mobile-menu">
+        <button id="closeMenuBtn" class="icon-btn close-menu"><i class="bi bi-x-lg"></i></button>
+        <div class="mobile-links">
+            <a href="#home" class="mobile-link" data-id="home">الرئيسية</a>
+            <a href="#about" class="mobile-link" data-id="about">حولي</a>
+            <a href="#services" class="mobile-link" data-id="services">خدماتي</a>
+            <a href="#projects" class="mobile-link" data-id="projects">مشاريعي</a>
+            <a href="#testimonials" class="mobile-link" data-id="testimonials">آراء العملاء</a>
+            <a href="#contact" class="mobile-link" data-id="contact">تواصل معي</a>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <a href="#home" class="bottom-link active"><i class="bi bi-house-door-fill"></i></a>
+        <a href="#projects" class="bottom-link"><i class="bi bi-grid-1x2-fill"></i></a>
+        <a href="#services" class="bottom-link"><i class="bi bi-tools"></i></a>
+        <a href="#contact" class="bottom-link"><i class="bi bi-chat-dots-fill"></i></a>
+    </nav>
+
+    <main>
+        <section id="home" class="hero section">
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <div class="badge reveal">
+                        <span class="blinking-dot"></span>
+                        <span id="heroAvailable">Available for work</span>
+                    </div>
+                    <h1 class="reveal reveal-delay-1">
+                        <span id="heroGreeting">I am</span>
+                        <strong class="grad-text" id="heroName">Omar Hamdia</strong>
+                    </h1>
+                    <h2 class="scramble-text grad-text reveal reveal-delay-2" id="scrambleText"></h2>
+                    <p class="hero-desc reveal reveal-delay-3" id="heroDesc"></p>
+                    <div class="hero-btns reveal reveal-delay-3">
+                        <a href="#projects" class="btn-primary" id="btnExplore">Explore My Work</a>
+                        <a href="#contact" class="btn-outline" id="btnTalk"><i class="bi bi-whatsapp"></i> Let's Talk</a>
+                    </div>
+                    <div class="social-links reveal reveal-delay-3" id="heroSocials"></div>
+                </div>
+                <div class="hero-image reveal reveal-delay-2">
+                    <div class="img-container">
+                        <img src="img/profile.png" alt="Omar Hamdia">
+                    </div>
+                    <div class="float-card card-1"><i class="bi bi-lightning-fill"></i> Laravel & PHP</div>
+                    <div class="float-card card-2"><i class="bi bi-code-slash"></i> Full Stack Dev</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about section">
+            <div class="container grid-2">
+                <div class="about-image reveal">
+                    <img src="img/profile.png" alt="Omar Hamdia">
+                    <div class="stat-box box-1">
+                        <h3 class="grad-text"><span data-count="1" class="counter">0</span>+</h3>
+                        <p id="statExp">Years Experience</p>
+                    </div>
+                    <div class="stat-box box-2">
+                        <h3 class="grad-text"><span data-count="3" class="counter">0</span>+</h3>
+                        <p id="statProj">Projects Done</p>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <div class="section-label reveal" id="aboutLabel">About Me</div>
+                    <h2 class="section-title grad-text reveal reveal-delay-1" id="aboutTitle"></h2>
+                    <p class="reveal reveal-delay-2" id="aboutContent"></p>
+                    <div class="skills-wrapper reveal reveal-delay-3">
+                        <h4 id="skillsTitle">Tech Stack</h4>
+                        <div class="skills-grid" id="skillsGrid"></div>
+                    </div>
+                    <a href="cv.html" target="_blank" class="btn-primary reveal reveal-delay-3" id="btnDownloadCv"><i class="bi bi-file-earmark-person"></i> View CV</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services section">
+            <div class="container">
+                <div class="section-header text-center reveal">
+                    <div class="section-label" id="servicesLabel">What I Do</div>
+                    <h2 class="section-title grad-text" id="servicesTitle">My Services</h2>
+                </div>
+                <div class="grid-3" id="servicesGrid"></div>
+            </div>
+        </section>
+
+        <section id="projects" class="projects section">
+            <div class="container">
+                <div class="section-header text-center reveal">
+                    <div class="section-label" id="projectsLabel">Portfolio</div>
+                    <h2 class="section-title grad-text" id="projectsTitle">Featured Work</h2>
+                </div>
+                <div class="bento-grid" id="projectsGrid"></div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="testimonials section">
+            <div class="container">
+                <div class="section-header text-center reveal">
+                    <div class="section-label" id="testLabel">Reviews</div>
+                    <h2 class="section-title grad-text" id="testTitle">Client Testimonials</h2>
+                </div>
+                <div class="swiper testimonials-slider reveal reveal-delay-1">
+                    <div class="swiper-wrapper" id="testimonialsWrapper"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact section">
+            <div class="container">
+                <div class="section-header text-center reveal">
+                    <div class="section-label" id="contactLabel">Get In Touch</div>
+                    <h2 class="section-title grad-text" id="contactTitle">Contact Me</h2>
+                </div>
+                <form id="contactForm" class="contact-form reveal reveal-delay-1">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" id="formName" required placeholder=" ">
+                            <label for="formName" id="lblFormName">Full Name</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="formEmail" required placeholder=" ">
+                            <label for="formEmail" id="lblFormEmail">Email</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="formSubject" required placeholder=" ">
+                        <label for="formSubject" id="lblFormSubject">Subject</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="formMessage" rows="5" required placeholder=" "></textarea>
+                        <label for="formMessage" id="lblFormMessage">Message</label>
+                    </div>
+                    <button type="submit" class="btn-primary w-full" id="btnSubmit">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <h2 class="logo grad-text mb-4">OMAR.</h2>
+            <div class="social-links justify-center mb-4" id="footerSocials"></div>
+            <p class="text-muted" id="footerCopy" style="margin-top: 0.8rem;">© 2026 Omar Hamdia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="backToTop" class="back-to-top"><i class="bi bi-arrow-up"></i></button>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
