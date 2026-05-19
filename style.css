@@ -59,21 +59,60 @@ body {
   background: var(--bg);
   z-index: 9999;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: opacity 0.5s ease;
+  transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1), opacity 0.6s ease;
+}
+.preloader.fade-out {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+.preloader-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 .preloader-text {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 900;
+  letter-spacing: 2px;
   background: linear-gradient(135deg, var(--brand-light), var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: pulse 1.5s infinite alternate;
 }
+.preloader-bar {
+  width: 150px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+html.light .preloader-bar {
+  background: rgba(0, 0, 0, 0.05);
+}
+.preloader-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--brand), var(--accent));
+  border-radius: 10px;
+  animation: loadProgress 0.8s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+@keyframes loadProgress {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
 @keyframes pulse {
-  0% { opacity: 0.5; transform: scale(0.95); }
-  100% { opacity: 1; transform: scale(1.05); }
+  0% { opacity: 0.5; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1.02); }
 }
 
 /* Custom Cursor */
@@ -908,4 +947,25 @@ html[dir="rtl"] .back-to-top { right: auto; left: 2rem; }
     padding: 1.5rem;
     border-radius: 20px;
   }
+}
+
+/* Project Details Loader */
+.project-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  width: 100%;
+}
+.project-loader .spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(14, 165, 233, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--brand);
+  animation: spin 0.8s linear infinite;
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.05);
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

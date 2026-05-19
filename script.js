@@ -28,10 +28,12 @@ const siteData = {
     }
   },
   about: {
-    title: "مطور ويب Full-Stack متخصص في Laravel و بناء تطبيقات الويب المتكاملة",
-    title_en: "Full-Stack Web Developer specializing in Laravel & building complete web applications",
-    content: "أنا عمر حمدية، مطور ويب شغوف بالبرمجة وبناء حلول رقمية مبتكرة. أتقن العمل مع Laravel و PHP لبناء تطبيقات ويب قوية وآمنة، بالإضافة لخبرتي في تقنيات الفرونت اند مثل HTML, CSS, JavaScript. أسعى دائماً لتقديم أفضل جودة في العمل مع الاهتمام بتجربة المستخدم والتصميم العصري.",
-    content_en: "I'm Omar Hamdia, a passionate web developer dedicated to building innovative digital solutions. I specialize in Laravel & PHP for building robust and secure web applications, along with front-end technologies like HTML, CSS, and JavaScript. I always strive to deliver the best quality work with a focus on user experience and modern design.",
+    title: "مطور Laravel ومهندس برمجيات متخصص في هندسة الأنظمة المعقدة",
+    title_en: "Laravel Developer & Software Engineer specializing in complex systems engineering",
+    hero_content: "مهندس برمجيات ومطور Laravel متخصص في بناء أنظمة برمجية متكاملة ولوحات تحكم متقدمة، مع دمج قوة الـ Backend وتفاعلية الـ Frontend.",
+    hero_content_en: "Software Engineer and Laravel Developer specializing in building integrated systems, advanced dashboards, and high-performance web applications.",
+    content: "أنا مهندس برمجيات ومطور Laravel متخصص في هندسة الأنظمة المعقدة (Systems Engineering)، وليس مجرد مواقع تقليدية. قمت بتطوير عدة أنظمة متكاملة تشمل إدارة المدارس، الموارد البشرية، ومراكز التحفيظ، مع معالجة منطقية دقيقة للبيانات والصلاحيات وسير العمل (Workflows). أجمع بين قوة الـ Backend (Laravel) والواجهات التفاعلية (JavaScript) لبناء تطبيقات سريعة، منظمة، وقابلة للتوسع. أمتلك خبرة في تصميم قواعد البيانات، تحسين الأداء، وبناء لوحات تحكم احترافية باستخدام Filament. أتعامل مع البرمجة كحل هندسي، وليس مجرد كتابة كود.",
+    content_en: "I am a Software Engineer and Laravel Developer specializing in complex Systems Engineering and high-performance backend architectures, rather than just conventional websites. I have engineered comprehensive enterprise systems—including School Management Platforms, HR systems, and specialized Management Hubs—focusing on intricate data modeling, robust role-based access control (RBAC), and automated workflows. I bridge the power and security of Laravel with the responsiveness of modern interactive JavaScript to build fast, structured, and highly scalable applications. My core expertise lies in advanced database design, query optimization, and constructing premium, high-fidelity administrative dashboards using Filament v3. I approach software development as a rigorous engineering discipline aimed at solving complex business challenges, not just writing code.",
     skills: ["PHP", "Laravel", "HTML", "CSS", "JavaScript", "Python", "MySQL", "Git", "REST API", "Bootstrap"],
     years_experience: 1
   },
@@ -183,9 +185,9 @@ window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
     if (preloader) {
         setTimeout(() => {
-            preloader.style.opacity = '0';
-            setTimeout(() => preloader.remove(), 500);
-        }, 1500);
+            preloader.classList.add('fade-out');
+            setTimeout(() => preloader.remove(), 600);
+        }, 800);
     }
 });
 
@@ -557,7 +559,7 @@ function populateIndexData() {
     document.getElementById('heroAvailable').textContent = isEn ? "Available for work" : "متاح للعمل";
     document.getElementById('heroGreeting').textContent = isEn ? "I am" : "أنا";
     document.getElementById('heroName').textContent = isEn ? siteData.settings.site_name_en : siteData.settings.site_name;
-    document.getElementById('heroDesc').textContent = isEn ? siteData.about.content_en : siteData.about.content;
+    document.getElementById('heroDesc').textContent = isEn ? siteData.about.hero_content_en : siteData.about.hero_content;
     document.getElementById('btnExplore').textContent = isEn ? "Explore My Work" : "استكشف أعمالي";
     document.getElementById('btnTalk').innerHTML = `<i class="bi bi-whatsapp"></i> ${isEn ? "Let's Talk" : "تحدث معي"}`;
     document.getElementById('btnTalk').href = waLink;
