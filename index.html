@@ -206,8 +206,52 @@
     <button id="backToTop" class="back-to-top"><i class="bi bi-arrow-up"></i></button>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <script type="module">
+      // Import modular Firebase SDK (v12.16.0) and expose small helpers for script.js
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
+      import { getDatabase, ref, get, runTransaction } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyChkkJidE0HMqOv4FCQ5lb5eHjXSkWZ0Yg",
+        authDomain: "omar-b422c.firebaseapp.com",
+        projectId: "omar-b422c",
+        storageBucket: "omar-b422c.firebasestorage.app",
+        messagingSenderId: "684302910692",
+        appId: "1:684302910692:web:4a654dad1ce3936c93d8f1",
+        measurementId: "G-C8EM19LK6Q"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      try { getAnalytics(app); } catch (e) { /* analytics may fail on local file:// */ }
+      const db = getDatabase(app);
+
+      // Helper to get value at path (returns null if missing)
+      window._fbGet = async function(path) {
+        try {
+          const snap = await get(ref(db, path));
+          return snap.exists() ? snap.val() : null;
+        } catch (err) {
+          console.warn('Firebase _fbGet failed:', err);
+          throw err;
+        }
+      };
+
+      // Helper to run transaction at path. updateFn receives currentData and should return newData
+      window._fbTransaction = async function(path, updateFn) {
+        try {
+          const result = await runTransaction(ref(db, path), (current) => {
+            // runTransaction expects the update function to return the new value (or undefined to abort)
+            return updateFn(current);
+          });
+          return result; // {committed, snapshot}
+        } catch (err) {
+          console.warn('Firebase _fbTransaction failed:', err);
+          throw err;
+        }
+      };
+    </script>
     <script src="script.js"></script>
 </body>
 </html>

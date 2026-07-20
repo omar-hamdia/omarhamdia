@@ -1,16 +1,7 @@
-const firebaseConfig = {
-  apiKey: "AIzaSyDW3m_fS3tr3ABtK_mrXVq6oNorrl0eNj0",
-  authDomain: "omarhamdai.firebaseapp.com",
-  databaseURL: "https://omarhamdai-default-rtdb.firebaseio.com",
-  projectId: "omarhamdai",
-  storageBucket: "omarhamdai.firebasestorage.app",
-  messagingSenderId: "67650144568",
-  appId: "1:67650144568:web:e2d75ac178a041f89f99cd",
-  measurementId: "G-98SBXYDD67"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+// Firebase is initialized in the HTML via a module script (v12.x) that exposes two helpers on window:
+//   window._fbGet(path)         => returns the value at path or null
+//   window._fbTransaction(path, updateFn) => runs a transaction at path using updateFn(currentValue)
+// This keeps the main script non-module while using the modular SDK safely.
 
 const siteData = {
   settings: {
@@ -503,8 +494,8 @@ document.head.appendChild(style);
 // --- PROJECT VIEWS TRACKING ---
 async function getProjectViews(id) {
     try {
-        const snapshot = await db.ref(`projects/${id}/views`).once('value');
-        return snapshot.exists() ? snapshot.val() : 0;
+        const val = await window._fbGet(`projects/${id}/views`);
+        return val !== null ? val : 0;
     } catch (error) {
         console.warn('Firebase getProjectViews failed:', error);
         return 0;
@@ -516,8 +507,9 @@ async function incrementProjectViews(id) {
     
     if (!sessionStorage.getItem(sessionKey)) {
         try {
-            await db.ref(`projects/${id}/views`).transaction((currentViews) => {
-                return (currentViews || 0) + 1;
+            // Use the modular transaction helper
+            const res = await window._fbTransaction(`projects/${id}/views`, (currentViews) => {
+                return (Number(currentViews) || 0) + 1;
             });
             sessionStorage.setItem(sessionKey, 'true');
         } catch (error) {
@@ -532,12 +524,13 @@ async function incrementProjectViews(id) {
 // --- PROJECT RATING TRACKING ---
 async function getProjectRating(id) {
     try {
-        const snapshot = await db.ref(`projects/${id}/rating`).once('value');
-        const data = snapshot.exists() ? snapshot.val() : { totalScore: 0, count: 0 };
-        let avg = data.count > 0 ? (data.totalScore / data.count) : 0;
+        const data = await window._fbGet(`projects/${id}/rating`);
+        const total = Number(data && data.totalScore) || 0;
+        const count = Number(data && data.count) || 0;
+        const avg = count > 0 ? (total / count) : 0;
         return {
             average: parseFloat(avg.toFixed(1)),
-            count: data.count
+            count: count
         };
     } catch (error) {
         console.warn('Firebase getProjectRating failed:', error);
@@ -552,7 +545,7 @@ async function submitProjectRating(id, rating) {
     }
 
     try {
-        const result = await db.ref(`projects/${id}/rating`).transaction((currentData) => {
+        const result = await window._fbTransaction(`projects/${id}/rating`, (currentData) => {
             // Coerce stored values to numbers to avoid string concatenation issues
             if (!currentData) {
                 return { totalScore: Number(rating), count: 1 };

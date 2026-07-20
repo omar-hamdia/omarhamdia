@@ -57,8 +57,47 @@
         </div>
     </footer>
 
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
+      import { getDatabase, ref, get, runTransaction } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyChkkJidE0HMqOv4FCQ5lb5eHjXSkWZ0Yg",
+        authDomain: "omar-b422c.firebaseapp.com",
+        projectId: "omar-b422c",
+        storageBucket: "omar-b422c.firebasestorage.app",
+        messagingSenderId: "684302910692",
+        appId: "1:684302910692:web:4a654dad1ce3936c93d8f1",
+        measurementId: "G-C8EM19LK6Q"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      try { getAnalytics(app); } catch (e) { }
+      const db = getDatabase(app);
+
+      window._fbGet = async function(path) {
+        try {
+          const snap = await get(ref(db, path));
+          return snap.exists() ? snap.val() : null;
+        } catch (err) {
+          console.warn('Firebase _fbGet failed:', err);
+          throw err;
+        }
+      };
+
+      window._fbTransaction = async function(path, updateFn) {
+        try {
+          const result = await runTransaction(ref(db, path), (current) => {
+            return updateFn(current);
+          });
+          return result;
+        } catch (err) {
+          console.warn('Firebase _fbTransaction failed:', err);
+          throw err;
+        }
+      };
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
