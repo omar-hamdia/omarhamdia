@@ -478,8 +478,13 @@ document.head.appendChild(style);
 
 // --- PROJECT VIEWS TRACKING ---
 async function getProjectViews(id) {
-    const snapshot = await db.ref(`projects/${id}/views`).once('value');
-    return snapshot.exists() ? snapshot.val() : 0;
+    try {
+        const snapshot = await db.ref(`projects/${id}/views`).once('value');
+        return snapshot.exists() ? snapshot.val() : 0;
+    } catch (error) {
+        console.warn('Firebase getProjectViews failed:', error);
+        return 0;
+    }
 }
 
 async function incrementProjectViews(id) {
@@ -487,9 +492,14 @@ async function incrementProjectViews(id) {
     
     if (!sessionStorage.getItem(sessionKey)) {
         sessionStorage.setItem(sessionKey, 'true');
-        await db.ref(`projects/${id}/views`).transaction((currentViews) => {
-            return (currentViews || 0) + 1;
-        });
+        try {
+            await db.ref(`projects/${id}/views`).transaction((currentViews) => {
+                return (currentViews || 0) + 1;
+            });
+        } catch (error) {
+            console.warn('Firebase incrementProjectViews failed:', error);
+            return 0;
+        }
     }
     
     return await getProjectViews(id);
@@ -497,13 +507,18 @@ async function incrementProjectViews(id) {
 
 // --- PROJECT RATING TRACKING ---
 async function getProjectRating(id) {
-    const snapshot = await db.ref(`projects/${id}/rating`).once('value');
-    const data = snapshot.exists() ? snapshot.val() : { totalScore: 0, count: 0 };
-    let avg = data.count > 0 ? (data.totalScore / data.count) : 0;
-    return {
-        average: parseFloat(avg.toFixed(1)),
-        count: data.count
-    };
+    try {
+        const snapshot = await db.ref(`projects/${id}/rating`).once('value');
+        const data = snapshot.exists() ? snapshot.val() : { totalScore: 0, count: 0 };
+        let avg = data.count > 0 ? (data.totalScore / data.count) : 0;
+        return {
+            average: parseFloat(avg.toFixed(1)),
+            count: data.count
+        };
+    } catch (error) {
+        console.warn('Firebase getProjectRating failed:', error);
+        return { average: 0, count: 0 };
+    }
 }
 
 async function submitProjectRating(id, rating) {
@@ -625,7 +640,28 @@ function populateIndexData() {
         });
         addTiltEffect();
         initRippleEffect();
-        initReveal(); 
+        initReveal();
+    }).catch(error => {
+        console.warn('Failed to load project statistics, rendering fallback cards:', error);
+        siteData.projects.forEach((p, idx) => {
+            projectsGrid.innerHTML += `
+                <div class="project-card reveal ${idx % 2 === 0 ? 'reveal-delay-1' : 'reveal-delay-2'}">
+                    <img src="${p.image}" alt="${p.title_en}" class="project-img">
+                    <div class="project-overlay">
+                        <div class="project-badges">
+                            <div class="p-badge" dir="ltr"><i class="bi bi-star-fill text-warning"></i> 0.0</div>
+                            <div class="p-badge" dir="ltr"><i class="bi bi-eye"></i> 0</div>
+                        </div>
+                        <h3>${isEn ? p.title_en : p.title}</h3>
+                        <p>${isEn ? p.description_en : p.description}</p>
+                        <a href="project.html?id=${p.id}" class="view-btn">${isEn ? "View Details" : "عرض التفاصيل"} <i class="bi bi-arrow-${isEn?'right':'left'}"></i></a>
+                    </div>
+                </div>
+            `;
+        });
+        addTiltEffect();
+        initRippleEffect();
+        initReveal();
     });
 
     // Testimonials
@@ -988,5 +1024,13 @@ function renderProjectPage() {
             if(dStars) dStars.innerHTML = newStarsHtml;
             if(dRatingText) dRatingText.textContent = `(${ratingData.average}/5 - ${ratingData.count} ${isEn?"Ratings":"تقييمات"})`;
             if(dViews) dViews.innerHTML = `<i class="bi bi-eye"></i> ${viewsCount}`;
+        }).catch(error => {
+            console.warn('Failed to load project rating or views:', error);
+            const dStars = document.getElementById('dynamicStars');
+            const dRatingText = document.getElementById('dynamicRatingText');
+            const dViews = document.getElementById('dynamicViews');
+            if(dStars) dStars.innerHTML = '<i class="bi bi-star text-warning"></i>'.repeat(5);
+            if(dRatingText) dRatingText.textContent = `0.0/5 - 0 ${isEn?"Ratings":"تقييمات"}`;
+            if(dViews) dViews.innerHTML = `<i class="bi bi-eye"></i> 0`;
         });
 }
