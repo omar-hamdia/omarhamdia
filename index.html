@@ -253,6 +253,49 @@
         }
       };
     </script>
+    <script>
+      // If page opened via file://, load compat SDKs and initialize firebase as fallback so window._fbGet/_fbTransaction exist
+      if (location.protocol === 'file:') {
+        (function(){
+          const firebaseConfigCompat = {
+            apiKey: "AIzaSyChkkJidE0HMqOv4FCQ5lb5eHjXSkWZ0Yg",
+            authDomain: "omar-b422c.firebaseapp.com",
+            databaseURL: "https://omar-b422c-default-rtdb.firebaseio.com",
+            projectId: "omar-b422c",
+            storageBucket: "omar-b422c.firebasestorage.app",
+            messagingSenderId: "684302910692",
+            appId: "1:684302910692:web:4a654dad1ce3936c93d8f1",
+            measurementId: "G-C8EM19LK6Q"
+          };
+
+          const s1 = document.createElement('script');
+          s1.src = 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js';
+          s1.onload = () => {
+            const s2 = document.createElement('script');
+            s2.src = 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js';
+            s2.onload = () => {
+              try {
+                firebase.initializeApp(firebaseConfigCompat);
+                const dbCompat = firebase.database();
+                window._fbGet = async function(path){
+                  const snap = await dbCompat.ref(path).once('value');
+                  return snap.exists() ? snap.val() : null;
+                };
+                window._fbTransaction = async function(path, updateFn){
+                  const res = await dbCompat.ref(path).transaction(updateFn);
+                  return res;
+                };
+                console.info('Firebase compat initialized (file:// fallback)');
+              } catch(e) {
+                console.warn('Firebase compat init failed:', e);
+              }
+            };
+            document.head.appendChild(s2);
+          };
+          document.head.appendChild(s1);
+        })();
+      }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
