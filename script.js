@@ -493,6 +493,12 @@ document.head.appendChild(style);
 
 // --- PROJECT VIEWS TRACKING ---
 async function getProjectViews(id) {
+    // If helpers not available (e.g., opened via file://), fall back to local siteData
+    if (typeof window._fbGet !== 'function') {
+        const p = siteData.projects.find(pr => pr.id === id);
+        return p ? (p.views_count || 0) : 0;
+    }
+
     try {
         const val = await window._fbGet(`projects/${id}/views`);
         return val !== null ? val : 0;
@@ -504,11 +510,22 @@ async function getProjectViews(id) {
 
 async function incrementProjectViews(id) {
     const sessionKey = `real_project_viewed_${id}`;
-    
+
     if (!sessionStorage.getItem(sessionKey)) {
+        // If transaction helper not available, increment local in-memory value
+        if (typeof window._fbTransaction !== 'function') {
+            const pIdx = siteData.projects.findIndex(pr => pr.id === id);
+            if (pIdx !== -1) {
+                siteData.projects[pIdx].views_count = (Number(siteData.projects[pIdx].views_count) || 0) + 1;
+                sessionStorage.setItem(sessionKey, 'true');
+                return siteData.projects[pIdx].views_count;
+            }
+            return 0;
+        }
+
         try {
             // Use the modular transaction helper
-            const res = await window._fbTransaction(`projects/${id}/views`, (currentViews) => {
+            await window._fbTransaction(`projects/${id}/views`, (currentViews) => {
                 return (Number(currentViews) || 0) + 1;
             });
             sessionStorage.setItem(sessionKey, 'true');
@@ -517,12 +534,21 @@ async function incrementProjectViews(id) {
             return 0;
         }
     }
-    
+
     return await getProjectViews(id);
 }
 
 // --- PROJECT RATING TRACKING ---
 async function getProjectRating(id) {
+    // Fallback to in-memory data when Firebase helpers are not available (file://)
+    if (typeof window._fbGet !== 'function') {
+        const p = siteData.projects.find(pr => pr.id === id);
+        if (p) {
+            return { average: parseFloat((p.average_rating || 0).toFixed(1)), count: p.ratings_count || 0 };
+        }
+        return { average: 0, count: 0 };
+    }
+
     try {
         const data = await window._fbGet(`projects/${id}/rating`);
         const total = Number(data && data.totalScore) || 0;
@@ -542,6 +568,26 @@ async function submitProjectRating(id, rating) {
     const sessionKey = `real_project_rated_${id}`;
     if (localStorage.getItem(sessionKey)) {
         return false; // Already rated locally
+    }
+
+    // If transaction helper not available (file://), update in-memory siteData only
+    if (typeof window._fbTransaction !== 'function') {
+        const pIdx = siteData.projects.findIndex(pr => pr.id === id);
+        if (pIdx === -1) return null;
+
+        const p = siteData.projects[pIdx];
+        const currentTotal = (Number(p.average_rating) || 0) * (Number(p.ratings_count) || 0);
+        const currentCount = Number(p.ratings_count) || 0;
+        const newTotal = currentTotal + Number(rating);
+        const newCount = currentCount + 1;
+        const newAvg = newCount > 0 ? parseFloat((newTotal / newCount).toFixed(1)) : 0;
+
+        // Update in-memory values
+        p.average_rating = newAvg;
+        p.ratings_count = newCount;
+
+        localStorage.setItem(sessionKey, 'true');
+        return { average: newAvg, count: newCount };
     }
 
     try {
