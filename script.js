@@ -856,6 +856,10 @@ function startScramble() {
 // PROJECT PAGE LOGIC
 // ==========================================
 function initProjectPage() {
+    // Increment views only once per session, before first render
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get('id'));
+    if (id) incrementProjectViews(id);
     renderProjectPage();
 }
 
@@ -1129,7 +1133,7 @@ function renderProjectPage() {
         // Fetch Firebase data async after rendering
         Promise.all([
             getProjectRating(project.id),
-            incrementProjectViews(project.id)
+            getProjectViews(project.id)
         ]).then(([ratingData, viewsCount]) => {
             // Update Stars
             let newStarsHtml = '';

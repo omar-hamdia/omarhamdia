@@ -219,8 +219,8 @@
         projectId: "omar-b422c",
         storageBucket: "omar-b422c.firebasestorage.app",
         messagingSenderId: "684302910692",
-        appId: "1:684302910692:web:4a654dad1ce3936c93d8f1",
-        measurementId: "G-C8EM19LK6Q"
+        appId: "1:684302910692:web:cf9f16dad072b5c793d8f1",
+        measurementId: "G-ZNV1VKJXFN"
       };
 
       // Initialize Firebase
@@ -231,7 +231,10 @@
       // Helper to get value at path (returns null if missing)
       window._fbGet = async function(path) {
         try {
-          const snap = await get(ref(db, path));
+          const snap = await Promise.race([
+            get(ref(db, path)),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Firebase timeout')), 3000))
+          ]);
           return snap.exists() ? snap.val() : null;
         } catch (err) {
           console.warn('Firebase _fbGet failed:', err);
@@ -242,10 +245,13 @@
       // Helper to run transaction at path. updateFn receives currentData and should return newData
       window._fbTransaction = async function(path, updateFn) {
         try {
-          const result = await runTransaction(ref(db, path), (current) => {
-            // runTransaction expects the update function to return the new value (or undefined to abort)
+          const txPromise = runTransaction(ref(db, path), (current) => {
             return updateFn(current);
           });
+          const result = await Promise.race([
+            txPromise,
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Firebase transaction timeout')), 3000))
+          ]);
           return result; // {committed, snapshot}
         } catch (err) {
           console.warn('Firebase _fbTransaction failed:', err);
@@ -264,8 +270,8 @@
             projectId: "omar-b422c",
             storageBucket: "omar-b422c.firebasestorage.app",
             messagingSenderId: "684302910692",
-            appId: "1:684302910692:web:4a654dad1ce3936c93d8f1",
-            measurementId: "G-C8EM19LK6Q"
+            appId: "1:684302910692:web:cf9f16dad072b5c793d8f1",
+            measurementId: "G-ZNV1VKJXFN"
           };
 
           const s1 = document.createElement('script');
@@ -278,11 +284,19 @@
                 firebase.initializeApp(firebaseConfigCompat);
                 const dbCompat = firebase.database();
                 window._fbGet = async function(path){
-                  const snap = await dbCompat.ref(path).once('value');
+                  const snapPromise = dbCompat.ref(path).once('value');
+                  const snap = await Promise.race([
+                    snapPromise,
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('Firebase compat timeout')), 3000))
+                  ]);
                   return snap.exists() ? snap.val() : null;
                 };
                 window._fbTransaction = async function(path, updateFn){
-                  const res = await dbCompat.ref(path).transaction(updateFn);
+                  const txPromise = dbCompat.ref(path).transaction(updateFn);
+                  const res = await Promise.race([
+                    txPromise,
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('Firebase compat transaction timeout')), 3000))
+                  ]);
                   return res;
                 };
                 console.info('Firebase compat initialized (file:// fallback)');
