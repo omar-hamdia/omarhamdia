@@ -62,10 +62,31 @@ const siteData = {
   ],
   projects: [
     {
+      id: 4,
+      title: "نظام إدارة مركز تحفيظ",
+      title_en: "Memorization Center Management System",
+      description: "نظام متكامل لإدارة مراكز التحفيظ يتضمن إدارة الطلاب، الفصول، الحلقات، حضور الطلاب، التقييمات اليومية، وتتبع سير حفظ المصحف مع لوحة تحكم إدارية لعرض التقارير وتنظيم المسارات التعليمية.",
+      description_en: "A complete management system for memorization centers that includes student, class, and session management, attendance tracking, daily evaluations, and progress monitoring for Quran memorization through an admin dashboard.",
+      image: "img/Gemini_Generated_Image_gs3aoogs3aoogs3a.png",
+      images: [],
+      link: "#",
+      github: "",
+      video: "video/0620(1).mp4",
+      views_count: 0,
+      average_rating: 0,
+      ratings_count: 0,
+      technologies: ["Laravel", "PHP", "MySQL", "Bootstrap", "JavaScript"],
+      type: "نظام إدارة تعليمية",
+      type_en: "Educational Management System",
+      date: "Jun 2026"
+    },
+    {
       id: 1,
       title: "نظام إدارة المكتبات",
       title_en: "Library Management System",
-      description: "نظام متكامل لإدارة المكتبات يشمل إدارة الكتب، الأعضاء، عمليات الاستعارة والإرجاع، مع لوحة تحكم [...]",
+      description: "نظام متكامل لإدارة المكتبات يشمل إدارة الكتب والأعضاء، عمليات الاستعارة والإرجاع، التجديد، والتقارير المباشرة، مع لوحة تحكم إدارية لإدارة الفئات والمخزون وتتبع الإحصائيات.",
+      description_en: "A comprehensive library management system covering book and member management, borrowing and returns, renewals, and live reports, with an admin dashboard for categories, inventory, and statistics tracking.",
+
       description_en: "A comprehensive library management system including book management, member management, borrowing and return operations, with a full admin dashboard and detailed reports.",
       image: "img/img_Library_management/Project_background/library_cover.png",
       images: [
@@ -95,7 +116,9 @@ const siteData = {
       id: 2,
       title: "نظام إدارة الموظفين",
       title_en: "Staff Management System",
-      description: "نظام متكامل لإدارة الموظفين يشمل تتبع الحضور والغياب، إدارة الرواتب، وتنظيم بيانات الموظفين مع [...]",
+      description: "نظام متكامل لإدارة الموظفين يشمل تتبع الحضور والغياب، إدارة الرواتب، تنظيم بيانات الموظفين، وإصدار تقارير الأداء مع واجهة إدارية احترافية للتحكم بالشؤون الإدارية.",
+      description_en: "A complete staff management system including attendance tracking, payroll management, employee data organization, and performance reporting, with a professional admin interface for HR operations.",
+
       description_en: "A comprehensive staff management system including attendance tracking, payroll management, and employee data organization with a professional admin dashboard.",
       image: "img/img_Staff_management/Project_background/staff_cover.png",
       images: [
@@ -123,8 +146,9 @@ const siteData = {
       id: 3,
       title: "نظام إدارة المدارس",
       title_en: "School Management System",
-      description: "نظام شامل لإدارة المدارس يشمل إدارة الطلاب، المعلمين، الصفوف، الجداول الدراسية، والدرجات مع لو[...]",
-      description_en: "A comprehensive school management system including student management, teacher management, classrooms, schedules, and grades with a full admin dashboard.",
+      description: "نظام شامل لإدارة المدارس يشمل إدارة الطلاب، المعلمين، الصفوف، الجداول الدراسية، والدرجات، بالإضافة إلى تقارير الأداء والتواصل مع أولياء الأمور عبر لوحة تحكم متكاملة.",
+      description_en: "A comprehensive school management system covering student and teacher management, classrooms, schedules, grading, performance reports, and parent communication through an integrated admin panel.",
+
       image: "img/img_school/Project_background/school_cover.png",
       images: [
         "img/img_school/school_screenshot_1.png",
@@ -491,11 +515,11 @@ async function incrementProjectViews(id) {
     const sessionKey = `real_project_viewed_${id}`;
     
     if (!sessionStorage.getItem(sessionKey)) {
-        sessionStorage.setItem(sessionKey, 'true');
         try {
             await db.ref(`projects/${id}/views`).transaction((currentViews) => {
                 return (currentViews || 0) + 1;
             });
+            sessionStorage.setItem(sessionKey, 'true');
         } catch (error) {
             console.warn('Firebase incrementProjectViews failed:', error);
             return 0;
@@ -524,21 +548,36 @@ async function getProjectRating(id) {
 async function submitProjectRating(id, rating) {
     const sessionKey = `real_project_rated_${id}`;
     if (localStorage.getItem(sessionKey)) {
-        return false; // Already rated
+        return false; // Already rated locally
     }
 
-    await db.ref(`projects/${id}/rating`).transaction((currentData) => {
-        if (!currentData) {
-            return { totalScore: parseInt(rating), count: 1 };
+    try {
+        const result = await db.ref(`projects/${id}/rating`).transaction((currentData) => {
+            // Coerce stored values to numbers to avoid string concatenation issues
+            if (!currentData) {
+                return { totalScore: Number(rating), count: 1 };
+            }
+            const currentTotal = Number(currentData.totalScore) || 0;
+            const currentCount = Number(currentData.count) || 0;
+            return {
+                totalScore: currentTotal + Number(rating),
+                count: currentCount + 1
+            };
+        });
+
+        if (!result || !result.committed) {
+            throw new Error('Firebase transaction not committed');
         }
-        return {
-            totalScore: currentData.totalScore + parseInt(rating),
-            count: currentData.count + 1
-        };
-    });
-    
-    localStorage.setItem(sessionKey, 'true'); 
-    return await getProjectRating(id);
+
+        // Mark as rated locally to prevent repeated ratings from same user
+        localStorage.setItem(sessionKey, 'true');
+
+        // Return the latest computed rating
+        return await getProjectRating(id);
+    } catch (error) {
+        console.warn('Firebase submitProjectRating failed:', error);
+        return null;
+    }
 }
 
 // ==========================================
@@ -649,8 +688,8 @@ function populateIndexData() {
                     <img src="${p.image}" alt="${p.title_en}" class="project-img">
                     <div class="project-overlay">
                         <div class="project-badges">
-                            <div class="p-badge" dir="ltr"><i class="bi bi-star-fill text-warning"></i> 0.0</div>
-                            <div class="p-badge" dir="ltr"><i class="bi bi-eye"></i> 0</div>
+                            <div class="p-badge" dir="ltr"><i class="bi bi-star-fill text-warning"></i> ${p.average_rating.toFixed(1)}</div>
+                            <div class="p-badge" dir="ltr"><i class="bi bi-eye"></i> ${p.views_count}</div>
                         </div>
                         <h3>${isEn ? p.title_en : p.title}</h3>
                         <p>${isEn ? p.description_en : p.description}</p>
@@ -942,14 +981,59 @@ function renderProjectPage() {
         document.getElementById('btnSubmitRate').addEventListener('click', async () => {
             if(selectedRating === 0) {
                 alert(isEn ? "Please select a rating first!" : "الرجاء اختيار تقييم أولاً!");
-            } else {
+                return;
+            }
+
+            try {
                 const newRating = await submitProjectRating(project.id, selectedRating);
-                if(newRating) {
-                    alert(isEn ? `Thank you for rating ${selectedRating} stars!` : `شكراً لتقييمك ${selectedRating} نجوم!`);
-                    setTimeout(() => location.reload(), 500);
-                } else {
+
+                if (newRating === false) {
+                    // submitProjectRating returns false when user already rated (local guard)
                     alert(isEn ? "You have already rated this project!" : "لقد قمت بتقييم هذا المشروع مسبقاً!");
+                    return;
                 }
+
+                if (!newRating) {
+                    // null or undefined => error
+                    alert(isEn ? "Unable to submit rating right now. Please try again later." : "تعذر إرسال التقييم الآن. حاول مرة أخرى لاحقاً.");
+                    return;
+                }
+
+                // Update UI with new rating without full reload
+                alert(isEn ? `Thank you for rating ${selectedRating} stars!` : `شكراً لتقييمك ${selectedRating} نجوم!`);
+
+                const dStars = document.getElementById('dynamicStars');
+                const dRatingText = document.getElementById('dynamicRatingText');
+
+                // Rebuild stars based on newRating.average
+                let newStarsHtml = '';
+                const fullStars = Math.floor(newRating.average);
+                const hasHalf = newRating.average % 1 !== 0;
+                for(let i=0; i<5; i++){
+                    if(i < fullStars) newStarsHtml += '<i class="bi bi-star-fill text-warning"></i>';
+                    else if(i === fullStars && hasHalf) newStarsHtml += '<i class="bi bi-star-half text-warning"></i>';
+                    else newStarsHtml += '<i class="bi bi-star text-warning"></i>';
+                }
+
+                if(dStars) dStars.innerHTML = newStarsHtml;
+                if(dRatingText) dRatingText.textContent = `(${newRating.average}/5 - ${newRating.count} ${isEn?"Ratings":"تقييمات"})`;
+
+                // Also update in-memory siteData so index page reflects change if navigated back
+                const projIdx = siteData.projects.findIndex(p => p.id === project.id);
+                if (projIdx !== -1) {
+                    siteData.projects[projIdx].average_rating = newRating.average;
+                    siteData.projects[projIdx].ratings_count = newRating.count;
+                }
+
+                // reflect selected rating visually
+                stars.forEach(st => {
+                    if(st.dataset.val <= selectedRating) { st.classList.replace('bi-star', 'bi-star-fill'); }
+                    else { st.classList.replace('bi-star-fill', 'bi-star'); }
+                });
+
+            } catch (error) {
+                console.error('Rating submission failed:', error);
+                alert(isEn ? "Unable to submit rating right now. Please try again later." : "تعذر إرسال التقييم الآن. حاول مرة أخرى لاحقاً.");
             }
         });
 
@@ -1030,7 +1114,7 @@ function renderProjectPage() {
             const dRatingText = document.getElementById('dynamicRatingText');
             const dViews = document.getElementById('dynamicViews');
             if(dStars) dStars.innerHTML = '<i class="bi bi-star text-warning"></i>'.repeat(5);
-            if(dRatingText) dRatingText.textContent = `0.0/5 - 0 ${isEn?"Ratings":"تقييمات"}`;
-            if(dViews) dViews.innerHTML = `<i class="bi bi-eye"></i> 0`;
+            if(dRatingText) dRatingText.textContent = `(${project.average_rating.toFixed(1)}/5 - ${project.ratings_count} ${isEn?"Ratings":"تقييمات"})`;
+            if(dViews) dViews.innerHTML = `<i class="bi bi-eye"></i> ${project.views_count}`;
         });
 }
