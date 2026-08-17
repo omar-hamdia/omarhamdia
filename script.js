@@ -21,11 +21,12 @@ const siteData = {
   about: {
     title: "مطور Laravel ومهندس برمجيات متخصص في هندسة الأنظمة المعقدة",
     title_en: "Laravel Developer & Software Engineer specializing in complex systems engineering",
-    hero_content: "مهندس برمجيات ومطور Laravel متخصص في بناء أنظمة برمجية متكاملة ولوحات تحكم متقدمة، مع دمج قوة الـ Backe[...]",
+    hero_content: "مهندس برمجيات ومطور Laravel متخصص في بناء أنظمة برمجية متكاملة ولوحات تحكم متقدمة، مع دمج قوة الـ Backend مع واجهات المستخدم الحديثة.",
     hero_content_en: "Software Engineer and Laravel Developer specializing in building integrated systems, advanced dashboards, and high-performance web applications.",
-    content: "أنا مهندس برمجيات ومطور Laravel متخصص في هندسة الأنظمة المعقدة (Systems Engineering)، وليس مجرد مواقع تقليدية. قم[...]",
-    content_en: "I am a Software Engineer and Laravel Developer specializing in complex Systems Engineering and high-performance backend architectures, rather than just conventional websites. I ha[...]",
+    content: "أنا مهندس برمجيات ومطور Laravel متخصص في هندسة الأنظمة المعقدة (Systems Engineering)، وليس مجرد مواقع تقليدية. قمت ببناء أنظمة إدارة متكاملة تشمل إدارة المدارس، المكتبات، الموظفين، ومراكز التحفيظ. أركز على الأمان، الأداء، وقابلية التوسع في كل مشروع.",
+    content_en: "I am a Software Engineer and Laravel Developer specializing in complex Systems Engineering and high-performance backend architectures. I've built integrated management systems for schools, libraries, HR, and educational centers, with a strong focus on security, performance, and scalability.",
     skills: ["PHP", "Laravel", "HTML", "CSS", "JavaScript", "Python", "MySQL", "Git", "REST API", "Bootstrap"],
+    security_skills: ["Network Security", "Linux", "Kali Linux", "Wireshark", "OWASP", "Penetration Testing"],
     years_experience: 1
   },
   services: [
@@ -44,11 +45,11 @@ const siteData = {
       icon: "bi-lightning-fill"
     },
     {
-      title: "تصميم واجهات المستخدم",
-      title_en: "UI/UX Design",
-      description: "تصميم واجهات مستخدم عصرية وجذابة مع التركيز على سهولة الاستخدام والتفاعل السلس.",
-      description_en: "Designing modern and attractive user interfaces with a focus on usability and smooth interactions.",
-      icon: "bi-palette-fill"
+      title: "أمن المعلومات",
+      title_en: "Information Security",
+      description: "تأمين التطبيقات والأنظمة من الثغرات الأمنية مع تطبيق أفضل ممارسات الأمان والحماية.",
+      description_en: "Securing applications and systems against vulnerabilities with best security practices and protection measures.",
+      icon: "bi-shield-lock-fill"
     }
   ],
   projects: [
@@ -77,8 +78,6 @@ const siteData = {
       title_en: "Library Management System",
       description: "نظام متكامل لإدارة المكتبات يشمل إدارة الكتب والأعضاء، عمليات الاستعارة والإرجاع، التجديد، والتقارير المباشرة، مع لوحة تحكم إدارية لإدارة الفئات والمخزون وتتبع الإحصائيات.",
       description_en: "A comprehensive library management system covering book and member management, borrowing and returns, renewals, and live reports, with an admin dashboard for categories, inventory, and statistics tracking.",
-
-      description_en: "A comprehensive library management system including book management, member management, borrowing and return operations, with a full admin dashboard and detailed reports.",
       image: "img/img_Library_management/Project_background/library_cover.png",
       images: [
         "img/img_Library_management/library_screenshot_1.png",
@@ -109,8 +108,6 @@ const siteData = {
       title_en: "Staff Management System",
       description: "نظام متكامل لإدارة الموظفين يشمل تتبع الحضور والغياب، إدارة الرواتب، تنظيم بيانات الموظفين، وإصدار تقارير الأداء مع واجهة إدارية احترافية للتحكم بالشؤون الإدارية.",
       description_en: "A complete staff management system including attendance tracking, payroll management, employee data organization, and performance reporting, with a professional admin interface for HR operations.",
-
-      description_en: "A comprehensive staff management system including attendance tracking, payroll management, and employee data organization with a professional admin dashboard.",
       image: "img/img_Staff_management/Project_background/staff_cover.png",
       images: [
         "img/img_Staff_management/staff_screenshot_1.png",
@@ -139,7 +136,6 @@ const siteData = {
       title_en: "School Management System",
       description: "نظام شامل لإدارة المدارس يشمل إدارة الطلاب، المعلمين، الصفوف، الجداول الدراسية، والدرجات، بالإضافة إلى تقارير الأداء والتواصل مع أولياء الأمور عبر لوحة تحكم متكاملة.",
       description_en: "A comprehensive school management system covering student and teacher management, classrooms, schedules, grading, performance reports, and parent communication through an integrated admin panel.",
-
       image: "img/img_school/Project_background/school_cover.png",
       images: [
         "img/img_school/school_screenshot_1.png",
@@ -192,7 +188,7 @@ const siteData = {
 
 // Global DOM Variables
 const html = document.documentElement;
-let currentLang = localStorage.getItem('lang') || 'ar';
+let currentLang = localStorage.getItem('lang') || 'en';
 let isDark = localStorage.getItem('theme') !== 'light';
 
 // Preloader
@@ -202,7 +198,7 @@ window.addEventListener('load', () => {
         setTimeout(() => {
             preloader.classList.add('fade-out');
             setTimeout(() => preloader.remove(), 600);
-        }, 800);
+        }, 1000);
     }
 });
 
@@ -211,11 +207,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initLang();
     initCursor();
-    initOrbs();
+    initGeoShapes();
     initNav();
     initReveal();
-    initReveal();
-    
+
     // Check which page we're on
     if (document.getElementById('home')) {
         initIndexPage();
@@ -300,10 +295,10 @@ function initCursor() {
     requestAnimationFrame(renderRing);
     
     const addHover = () => {
-        document.querySelectorAll('a, button, .service-card, .project-card, .gallery-item').forEach(el => {
+        document.querySelectorAll('a, button, .service-card, .project-card, .gallery-item, .skill-tag').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 ring.style.transform = 'translate(-50%, -50%) scale(1.8)';
-                ring.style.backgroundColor = 'rgba(14, 165, 233, 0.1)';
+                ring.style.backgroundColor = 'rgba(59, 130, 246, 0.08)';
             });
             el.addEventListener('mouseleave', () => {
                 ring.style.transform = 'translate(-50%, -50%) scale(1)';
@@ -312,21 +307,20 @@ function initCursor() {
         });
     };
     addHover();
-    // Re-apply hover listeners when DOM changes (observer)
     const observer = new MutationObserver(addHover);
     observer.observe(document.body, { childList: true, subtree: true });
 }
 
-// --- ORBS ---
-function initOrbs() {
-    const orbs = document.querySelectorAll('.orb');
+// --- GEOMETRIC SHAPES ---
+function initGeoShapes() {
+    const shapes = document.querySelectorAll('.geo-shape');
     window.addEventListener('mousemove', (e) => {
         const x = e.clientX / window.innerWidth;
         const y = e.clientY / window.innerHeight;
         
-        orbs.forEach((orb, index) => {
-            const speed = (index + 1) * 20;
-            orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+        shapes.forEach((shape, index) => {
+            const speed = (index + 1) * 15;
+            shape.style.transform = `translate(${x * speed}px, ${y * speed}px)${index === 2 ? ' rotate(45deg)' : ''}`;
         });
     });
 }
@@ -367,10 +361,11 @@ function initNav() {
         });
     }
 
-    // Active side and bottom link on scroll
+    // Active side, bottom, and nav links on scroll
     const sections = document.querySelectorAll('.section');
     const sideLinks = document.querySelectorAll('.side-link');
     const bottomLinks = document.querySelectorAll('.bottom-link');
+    const navLinks = document.querySelectorAll('.nav-link');
     
     window.addEventListener('scroll', () => {
         let current = '';
@@ -381,19 +376,18 @@ function initNav() {
             }
         });
         
-        sideLinks.forEach(link => {
-            link.classList.remove('active');
-            if(link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
+        const updateLinks = (links) => {
+            links.forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        };
         
-        bottomLinks.forEach(link => {
-            link.classList.remove('active');
-            if(link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
+        updateLinks(sideLinks);
+        updateLinks(bottomLinks);
+        updateLinks(navLinks);
     });
 }
 
@@ -407,7 +401,7 @@ function initReveal() {
                 entry.target.classList.add('active');
                 
                 // Counter
-                if(entry.target.classList.contains('about-image') && !entry.target.dataset.counted) {
+                if(entry.target.classList.contains('about-content') && !entry.target.dataset.counted) {
                     entry.target.dataset.counted = true;
                     document.querySelectorAll('.counter').forEach(count => {
                         const target = +count.getAttribute('data-count');
@@ -441,9 +435,8 @@ function addTiltEffect() {
             const y = e.clientY - rect.top;
             const xPct = (x / rect.width) - 0.5;
             const yPct = (y / rect.height) - 0.5;
-            card.style.transform = `perspective(1000px) rotateY(${xPct * 15}deg) rotateX(${-yPct * 15}deg) scale3d(1.02, 1.02, 1.02)`;
+            card.style.transform = `perspective(1000px) rotateY(${xPct * 10}deg) rotateX(${-yPct * 10}deg) scale3d(1.02, 1.02, 1.02)`;
             card.style.transition = 'transform 0.1s ease';
-            card.style.boxShadow = `${-xPct * 20}px ${yPct * 20}px 30px rgba(0,0,0,0.3)`;
         });
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)';
@@ -461,7 +454,7 @@ function initRippleEffect() {
             
             let ripple = document.createElement('span');
             ripple.style.position = 'absolute';
-            ripple.style.background = 'rgba(255, 255, 255, 0.4)';
+            ripple.style.background = 'rgba(255, 255, 255, 0.3)';
             ripple.style.width = '100px';
             ripple.style.height = '100px';
             ripple.style.borderRadius = '50%';
@@ -475,25 +468,22 @@ function initRippleEffect() {
             this.style.overflow = 'hidden';
             this.style.position = 'relative';
             
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
+            setTimeout(() => { ripple.remove(); }, 600);
         });
     });
 }
 
 // Ensure CSS keyframes for ripple exists
-const style = document.createElement('style');
-style.textContent = `
+const rippleStyle = document.createElement('style');
+rippleStyle.textContent = `
     @keyframes ripple {
         to { transform: translate(-50%, -50%) scale(4); opacity: 0; }
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(rippleStyle);
 
 // --- PROJECT VIEWS TRACKING ---
 async function getProjectViews(id) {
-    // If helpers not available (e.g., opened via file://), fall back to local siteData
     if (typeof window._fbGet !== 'function') {
         const p = siteData.projects.find(pr => pr.id === id);
         return p ? (p.views_count || 0) : 0;
@@ -512,7 +502,6 @@ async function incrementProjectViews(id) {
     const sessionKey = `real_project_viewed_${id}`;
 
     if (!sessionStorage.getItem(sessionKey)) {
-        // If transaction helper not available, increment local in-memory value
         if (typeof window._fbTransaction !== 'function') {
             const pIdx = siteData.projects.findIndex(pr => pr.id === id);
             if (pIdx !== -1) {
@@ -524,7 +513,6 @@ async function incrementProjectViews(id) {
         }
 
         try {
-            // Use the modular transaction helper
             await window._fbTransaction(`projects/${id}/views`, (currentViews) => {
                 return (Number(currentViews) || 0) + 1;
             });
@@ -540,7 +528,6 @@ async function incrementProjectViews(id) {
 
 // --- PROJECT RATING TRACKING ---
 async function getProjectRating(id) {
-    // Fallback to in-memory data when Firebase helpers are not available (file://)
     if (typeof window._fbGet !== 'function') {
         const p = siteData.projects.find(pr => pr.id === id);
         if (p) {
@@ -567,10 +554,9 @@ async function getProjectRating(id) {
 async function submitProjectRating(id, rating) {
     const sessionKey = `real_project_rated_${id}`;
     if (localStorage.getItem(sessionKey)) {
-        return false; // Already rated locally
+        return false;
     }
 
-    // If transaction helper not available (file://), update in-memory siteData only
     if (typeof window._fbTransaction !== 'function') {
         const pIdx = siteData.projects.findIndex(pr => pr.id === id);
         if (pIdx === -1) return null;
@@ -582,7 +568,6 @@ async function submitProjectRating(id, rating) {
         const newCount = currentCount + 1;
         const newAvg = newCount > 0 ? parseFloat((newTotal / newCount).toFixed(1)) : 0;
 
-        // Update in-memory values
         p.average_rating = newAvg;
         p.ratings_count = newCount;
 
@@ -592,7 +577,6 @@ async function submitProjectRating(id, rating) {
 
     try {
         const result = await window._fbTransaction(`projects/${id}/rating`, (currentData) => {
-            // Coerce stored values to numbers to avoid string concatenation issues
             if (!currentData) {
                 return { totalScore: Number(rating), count: 1 };
             }
@@ -608,10 +592,7 @@ async function submitProjectRating(id, rating) {
             throw new Error('Firebase transaction not committed');
         }
 
-        // Mark as rated locally to prevent repeated ratings from same user
         localStorage.setItem(sessionKey, 'true');
-
-        // Return the latest computed rating
         return await getProjectRating(id);
     } catch (error) {
         console.warn('Firebase submitProjectRating failed:', error);
@@ -629,52 +610,89 @@ function initIndexPage() {
 function populateIndexData() {
     const isEn = currentLang === 'en';
     
-    // Nav & Links
-    const waLink = `https://wa.me/${siteData.settings.whatsapp}`;
-    document.getElementById('whatsappBtn').href = waLink;
-    document.getElementById('whatsappText').textContent = isEn ? "Contact Me" : "تواصل معي";
+    // Nav links
+    const navTexts = isEn 
+        ? { home: "Home", about: "About", skills: "Skills", projects: "Projects", contact: "Contact" }
+        : { home: "الرئيسية", about: "حولي", skills: "المهارات", projects: "مشاريعي", contact: "تواصل" };
     
-    // Socials Hero
+    const navIds = ['navHome', 'navAbout', 'navSkills', 'navProjects', 'navContact'];
+    const navKeys = ['home', 'about', 'skills', 'projects', 'contact'];
+    navIds.forEach((id, i) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = navTexts[navKeys[i]];
+    });
+
+    // Hire Me button
+    const hireMeBtn = document.getElementById('hireMeBtn');
+    if (hireMeBtn) {
+        const hireMeText = document.getElementById('hireMeText');
+        if (hireMeText) hireMeText.textContent = isEn ? "Hire Me" : "وظفني";
+    }
+
+    // Socials
     const renderSocials = (containerId) => {
         const container = document.getElementById(containerId);
         if(!container) return;
         container.innerHTML = '';
         Object.entries(siteData.settings.social_links).forEach(([key, val]) => {
             if(val) {
-                container.innerHTML += `<a href="${val}" target="_blank" class="social-link"><i class="bi bi-${key}"></i></a>`;
+                container.innerHTML += `<a href="${val}" target="_blank" class="social-link" aria-label="${key}"><i class="bi bi-${key}"></i></a>`;
             }
         });
     };
     renderSocials('heroSocials');
     renderSocials('footerSocials');
+    renderSocials('contactSocials');
 
     // Hero
     document.getElementById('heroAvailable').textContent = isEn ? "Available for work" : "متاح للعمل";
     document.getElementById('heroGreeting').textContent = isEn ? "I am" : "أنا";
     document.getElementById('heroName').textContent = isEn ? siteData.settings.site_name_en : siteData.settings.site_name;
+    document.getElementById('heroTagline').textContent = isEn 
+        ? "Secure by design • Develop with purpose • Impact the future."
+        : "آمن بالتصميم • طوّر بهدف • أثّر في المستقبل.";
     document.getElementById('heroDesc').textContent = isEn ? siteData.about.hero_content_en : siteData.about.hero_content;
-    document.getElementById('btnExplore').textContent = isEn ? "Explore My Work" : "استكشف أعمالي";
-    document.getElementById('btnTalk').innerHTML = `<i class="bi bi-whatsapp"></i> ${isEn ? "Let's Talk" : "تحدث معي"}`;
-    document.getElementById('btnTalk').href = waLink;
+    document.getElementById('btnExplore').innerHTML = `<i class="bi bi-arrow-down-circle"></i> ${isEn ? "Explore My Work" : "استكشف أعمالي"}`;
+    document.getElementById('btnTalk').innerHTML = `<i class="bi bi-shield-lock"></i> ${isEn ? "Let's Collaborate" : "لنتعاون"}`;
+    document.getElementById('btnTalk').href = "#contact";
+    document.getElementById('scrollText').textContent = isEn ? "Scroll" : "مرر";
 
     // About
+    document.getElementById('aboutLabel').textContent = isEn ? "Get to know me" : "تعرف علي";
+    document.getElementById('aboutTitle').innerHTML = isEn 
+        ? 'About <span class="grad-text">Me</span>'
+        : 'نبذة <span class="grad-text">عني</span>';
+    document.getElementById('aboutContent').textContent = isEn ? siteData.about.content_en : siteData.about.content;
     document.getElementById('statExp').textContent = isEn ? "Years Experience" : "سنوات خبرة";
     document.getElementById('statProj').textContent = isEn ? "Projects Done" : "مشروع مكتمل";
-    document.getElementById('aboutLabel').textContent = isEn ? "Get to know me" : "تعرف علي";
-    document.getElementById('aboutTitle').textContent = isEn ? "About Me" : "نبذة عني";
-    document.getElementById('aboutContent').textContent = isEn ? siteData.about.content_en : siteData.about.content;
-    document.getElementById('skillsTitle').textContent = isEn ? "Tech Stack" : "التقنيات المستخدمة";
+    document.getElementById('statClients').textContent = isEn ? "Happy Clients" : "عملاء سعداء";
     document.getElementById('btnDownloadCv').innerHTML = `<i class="bi bi-file-earmark-person"></i> ${isEn ? "View CV" : "عرض السيرة الذاتية"}`;
-    
-    const skillsGrid = document.getElementById('skillsGrid');
-    skillsGrid.innerHTML = '';
+
+    // Skills
+    document.getElementById('skillsLabel').textContent = isEn ? "What I Know" : "ما أعرفه";
+    document.getElementById('skillsSectionTitle').innerHTML = isEn 
+        ? 'My <span class="grad-text">Skills</span>'
+        : 'مهاراتي <span class="grad-text">التقنية</span>';
+    document.getElementById('skillsDevTitle').textContent = isEn ? "Development" : "التطوير";
+    document.getElementById('skillsSecTitle').textContent = isEn ? "Security & Tools" : "الأمان والأدوات";
+
+    const skillsDevGrid = document.getElementById('skillsDevGrid');
+    skillsDevGrid.innerHTML = '';
     siteData.about.skills.forEach(skill => {
-        skillsGrid.innerHTML += `<div class="skill-tag">${skill}</div>`;
+        skillsDevGrid.innerHTML += `<div class="skill-tag">${skill}</div>`;
+    });
+
+    const skillsSecGrid = document.getElementById('skillsSecGrid');
+    skillsSecGrid.innerHTML = '';
+    (siteData.about.security_skills || []).forEach(skill => {
+        skillsSecGrid.innerHTML += `<div class="skill-tag">${skill}</div>`;
     });
 
     // Services
     document.getElementById('servicesLabel').textContent = isEn ? "What I Do" : "ماذا أقدم";
-    document.getElementById('servicesTitle').textContent = isEn ? "My Services" : "خدماتي";
+    document.getElementById('servicesTitle').innerHTML = isEn 
+        ? 'My <span class="grad-text">Services</span>'
+        : 'خدماتي <span class="grad-text">المميزة</span>';
     const servicesGrid = document.getElementById('servicesGrid');
     servicesGrid.innerHTML = '';
     siteData.services.forEach(s => {
@@ -689,7 +707,9 @@ function populateIndexData() {
 
     // Projects
     document.getElementById('projectsLabel').textContent = isEn ? "Portfolio" : "معرض الأعمال";
-    document.getElementById('projectsTitle').textContent = isEn ? "Featured Work" : "أعمال مميزة";
+    document.getElementById('projectsTitle').innerHTML = isEn 
+        ? 'Featured <span class="grad-text">Work</span>'
+        : 'أعمال <span class="grad-text">مميزة</span>';
     const projectsGrid = document.getElementById('projectsGrid');
     projectsGrid.innerHTML = '';
     
@@ -706,7 +726,7 @@ function populateIndexData() {
                     <img src="${p.image}" alt="${p.title_en}" class="project-img">
                     <div class="project-overlay">
                         <div class="project-badges">
-                            <div class="p-badge" dir="ltr"><i class="bi bi-star-fill text-warning"></i> ${pRating.average}</div>
+                            <div class="p-badge" dir="ltr"><i class="bi bi-star-fill" style="color:#fbbf24"></i> ${pRating.average}</div>
                             <div class="p-badge" dir="ltr"><i class="bi bi-eye"></i> ${pViews}</div>
                         </div>
                         <h3>${isEn ? p.title_en : p.title}</h3>
@@ -727,7 +747,7 @@ function populateIndexData() {
                     <img src="${p.image}" alt="${p.title_en}" class="project-img">
                     <div class="project-overlay">
                         <div class="project-badges">
-                            <div class="p-badge" dir="ltr"><i class="bi bi-star-fill text-warning"></i> ${p.average_rating.toFixed(1)}</div>
+                            <div class="p-badge" dir="ltr"><i class="bi bi-star-fill" style="color:#fbbf24"></i> ${p.average_rating.toFixed(1)}</div>
                             <div class="p-badge" dir="ltr"><i class="bi bi-eye"></i> ${p.views_count}</div>
                         </div>
                         <h3>${isEn ? p.title_en : p.title}</h3>
@@ -744,7 +764,9 @@ function populateIndexData() {
 
     // Testimonials
     document.getElementById('testLabel').textContent = isEn ? "Reviews" : "الآراء";
-    document.getElementById('testTitle').textContent = isEn ? "Client Testimonials" : "آراء العملاء";
+    document.getElementById('testTitle').innerHTML = isEn 
+        ? 'Client <span class="grad-text">Testimonials</span>'
+        : 'آراء <span class="grad-text">العملاء</span>';
     const testWrapper = document.getElementById('testimonialsWrapper');
     testWrapper.innerHTML = '';
     siteData.testimonials.forEach(t => {
@@ -764,7 +786,6 @@ function populateIndexData() {
             </div>
         `;
     });
-    // Init Swiper if not initialized
     if(window.swiperInst) window.swiperInst.destroy();
     window.swiperInst = new Swiper('.testimonials-slider', {
         slidesPerView: 1, spaceBetween: 30, loop: true,
@@ -775,12 +796,18 @@ function populateIndexData() {
 
     // Contact
     document.getElementById('contactLabel').textContent = isEn ? "Get In Touch" : "تواصل معي";
-    document.getElementById('contactTitle').textContent = isEn ? "Contact Me" : "راسلني الآن";
+    document.getElementById('contactTitle').innerHTML = isEn 
+        ? 'Contact <span class="grad-text">Me</span>'
+        : 'تواصل <span class="grad-text">معي</span>';
+    document.getElementById('contactEmailLabel').textContent = isEn ? "Email" : "البريد الإلكتروني";
+    document.getElementById('contactPhoneLabel').textContent = isEn ? "Phone" : "الهاتف";
+    document.getElementById('contactLocationLabel').textContent = isEn ? "Location" : "الموقع";
+    document.getElementById('contactLocationVal').textContent = isEn ? "Gaza, Palestine" : "غزة، فلسطين";
     document.getElementById('lblFormName').textContent = isEn ? "Full Name" : "الاسم الكامل";
     document.getElementById('lblFormEmail').textContent = isEn ? "Email" : "البريد الإلكتروني";
     document.getElementById('lblFormSubject').textContent = isEn ? "Subject" : "الموضوع";
     document.getElementById('lblFormMessage').textContent = isEn ? "Message" : "الرسالة";
-    document.getElementById('btnSubmit').textContent = isEn ? "Send Message" : "إرسال الرسالة";
+    document.getElementById('btnSubmit').innerHTML = `<i class="bi bi-send-fill"></i> ${isEn ? "Send Message" : "إرسال الرسالة"}`;
     
     // Contact Form Logic
     const form = document.getElementById('contactForm');
@@ -790,20 +817,33 @@ function populateIndexData() {
         form.reset();
     };
 
-    // Mobile Menu Links Update
+    // Mobile Menu Links
+    const mobileTexts = isEn 
+        ? { home: "Home", about: "About", skills: "Skills", projects: "Projects", contact: "Contact" }
+        : { home: "الرئيسية", about: "حولي", skills: "المهارات", projects: "مشاريعي", contact: "تواصل" };
     document.querySelectorAll('.mobile-link').forEach(link => {
         const id = link.getAttribute('data-id');
-        const enText = {home:"Home", about:"About", services:"Services", projects:"Projects", testimonials:"Testimonials", contact:"Contact"};
-        const arText = {home:"الرئيسية", about:"حولي", services:"خدماتي", projects:"مشاريعي", testimonials:"آراء العملاء", contact:"تواصل معي"};
-        link.textContent = isEn ? enText[id] : arText[id];
+        if (mobileTexts[id]) link.textContent = mobileTexts[id];
     });
 
     // Footer
-    document.getElementById('footerCopy').textContent = isEn ? `© 2026 ${siteData.settings.site_name_en}. All rights reserved.` : `© 2026 ${siteData.settings.site_name}. جميع الحقوق محفوظة.`;
+    document.getElementById('footerTagline').textContent = isEn 
+        ? "Secure by design. Develop with purpose."
+        : "آمن بالتصميم. طوّر بهدف.";
+    document.getElementById('footerQuickLinks').textContent = isEn ? "Quick Links" : "روابط سريعة";
+    document.getElementById('footerHome').textContent = isEn ? "Home" : "الرئيسية";
+    document.getElementById('footerAbout').textContent = isEn ? "About" : "حولي";
+    document.getElementById('footerProjects').textContent = isEn ? "Projects" : "مشاريعي";
+    document.getElementById('footerContact').textContent = isEn ? "Contact" : "تواصل";
+    document.getElementById('footerConnectTitle').textContent = isEn ? "Connect" : "تواصل معي";
+    document.getElementById('footerLocation').textContent = isEn ? "Gaza, Palestine" : "غزة، فلسطين";
+    document.getElementById('footerCopy').textContent = isEn 
+        ? `© 2026 ${siteData.settings.site_name_en}. All rights reserved.`
+        : `© 2026 ${siteData.settings.site_name}. جميع الحقوق محفوظة.`;
 
-    // Tooltips update
-    const tooltipsEn = ["Home", "About", "Services", "Projects", "Testimonials", "Contact"];
-    const tooltipsAr = ["الرئيسية", "حولي", "خدماتي", "مشاريعي", "آراء العملاء", "تواصل معي"];
+    // Side nav tooltips
+    const tooltipsEn = ["Home", "About", "Skills", "Projects", "Contact"];
+    const tooltipsAr = ["الرئيسية", "حولي", "المهارات", "مشاريعي", "تواصل"];
     document.querySelectorAll('.side-link').forEach((link, idx) => {
         link.setAttribute('data-tooltip', isEn ? tooltipsEn[idx] : tooltipsAr[idx]);
     });
@@ -815,8 +855,8 @@ function startScramble() {
     if(!el) return;
     const isEn = currentLang === 'en';
     const phrases = isEn 
-        ? ["Laravel Developer ⚡", "Full Stack Engineer 🚀", "Web Application Dev 💻"]
-        : ["مطور Laravel ⚡", "مهندس Full Stack 🚀", "مطور تطبيقات ويب 💻"];
+        ? ["InfoSec Student 🛡️", "Laravel Developer ⚡", "Full Stack Engineer 🚀"]
+        : ["طالب أمن معلومات 🛡️", "مطور Laravel ⚡", "مهندس Full Stack 🚀"];
     
     let phraseIdx = 0;
     let charIdx = 0;
@@ -829,7 +869,6 @@ function startScramble() {
             el.textContent = current.substring(0, charIdx - 1);
             charIdx--;
         } else {
-            // Add scramble chars
             const text = current.substring(0, charIdx + 1);
             el.textContent = text + chars[Math.floor(Math.random() * chars.length)];
             charIdx++;
@@ -856,7 +895,6 @@ function startScramble() {
 // PROJECT PAGE LOGIC
 // ==========================================
 function initProjectPage() {
-    // Increment views only once per session, before first render
     const params = new URLSearchParams(window.location.search);
     const id = parseInt(params.get('id'));
     if (id) incrementProjectViews(id);
@@ -882,10 +920,8 @@ function renderProjectPage() {
     const desc = isEn ? project.description_en : project.description;
     const type = isEn ? project.type_en : project.type;
     
-    // Generate Tags HTML
     let tagsHtml = project.technologies.map(t => `<span class="p-badge" style="display:inline-block; margin-right:5px; margin-bottom:5px;">${t}</span>`).join('');
 
-    // Rating Interface
     const rateText = isEn ? "Rate this work" : "قيّم هذا العمل";
     const submitText = isEn ? "Submit Rating" : "إرسال التقييم";
 
@@ -909,7 +945,7 @@ function renderProjectPage() {
         </div>
         
         <div class="rating-card">
-            <h3 style="margin-bottom:1rem;"><i class="bi bi-star-fill text-warning"></i> ${rateText}</h3>
+            <h3 style="margin-bottom:1rem;"><i class="bi bi-star-fill" style="color:#fbbf24"></i> ${rateText}</h3>
             <div class="stars-interactive" id="rateStars">
                 <i class="bi bi-star" data-val="1"></i>
                 <i class="bi bi-star" data-val="2"></i>
@@ -1031,44 +1067,38 @@ function renderProjectPage() {
                 const newRating = await submitProjectRating(project.id, selectedRating);
 
                 if (newRating === false) {
-                    // submitProjectRating returns false when user already rated (local guard)
                     alert(isEn ? "You have already rated this project!" : "لقد قمت بتقييم هذا المشروع مسبقاً!");
                     return;
                 }
 
                 if (!newRating) {
-                    // null or undefined => error
                     alert(isEn ? "Unable to submit rating right now. Please try again later." : "تعذر إرسال التقييم الآن. حاول مرة أخرى لاحقاً.");
                     return;
                 }
 
-                // Update UI with new rating without full reload
                 alert(isEn ? `Thank you for rating ${selectedRating} stars!` : `شكراً لتقييمك ${selectedRating} نجوم!`);
 
                 const dStars = document.getElementById('dynamicStars');
                 const dRatingText = document.getElementById('dynamicRatingText');
 
-                // Rebuild stars based on newRating.average
                 let newStarsHtml = '';
                 const fullStars = Math.floor(newRating.average);
                 const hasHalf = newRating.average % 1 !== 0;
                 for(let i=0; i<5; i++){
-                    if(i < fullStars) newStarsHtml += '<i class="bi bi-star-fill text-warning"></i>';
-                    else if(i === fullStars && hasHalf) newStarsHtml += '<i class="bi bi-star-half text-warning"></i>';
-                    else newStarsHtml += '<i class="bi bi-star text-warning"></i>';
+                    if(i < fullStars) newStarsHtml += '<i class="bi bi-star-fill" style="color:#fbbf24"></i>';
+                    else if(i === fullStars && hasHalf) newStarsHtml += '<i class="bi bi-star-half" style="color:#fbbf24"></i>';
+                    else newStarsHtml += '<i class="bi bi-star" style="color:#fbbf24"></i>';
                 }
 
                 if(dStars) dStars.innerHTML = newStarsHtml;
                 if(dRatingText) dRatingText.textContent = `(${newRating.average}/5 - ${newRating.count} ${isEn?"Ratings":"تقييمات"})`;
 
-                // Also update in-memory siteData so index page reflects change if navigated back
                 const projIdx = siteData.projects.findIndex(p => p.id === project.id);
                 if (projIdx !== -1) {
                     siteData.projects[projIdx].average_rating = newRating.average;
                     siteData.projects[projIdx].ratings_count = newRating.count;
                 }
 
-                // reflect selected rating visually
                 stars.forEach(st => {
                     if(st.dataset.val <= selectedRating) { st.classList.replace('bi-star', 'bi-star-fill'); }
                     else { st.classList.replace('bi-star-fill', 'bi-star'); }
@@ -1128,21 +1158,20 @@ function renderProjectPage() {
         });
 
         addTiltEffect();
-        initReveal(); // Ensure other projects animate in
+        initReveal();
         
         // Fetch Firebase data async after rendering
         Promise.all([
             getProjectRating(project.id),
             getProjectViews(project.id)
         ]).then(([ratingData, viewsCount]) => {
-            // Update Stars
             let newStarsHtml = '';
             const fullStars = Math.floor(ratingData.average);
             const hasHalf = ratingData.average % 1 !== 0;
             for(let i=0; i<5; i++){
-                if(i < fullStars) newStarsHtml += '<i class="bi bi-star-fill text-warning"></i>';
-                else if(i === fullStars && hasHalf) newStarsHtml += '<i class="bi bi-star-half text-warning"></i>';
-                else newStarsHtml += '<i class="bi bi-star text-warning"></i>';
+                if(i < fullStars) newStarsHtml += '<i class="bi bi-star-fill" style="color:#fbbf24"></i>';
+                else if(i === fullStars && hasHalf) newStarsHtml += '<i class="bi bi-star-half" style="color:#fbbf24"></i>';
+                else newStarsHtml += '<i class="bi bi-star" style="color:#fbbf24"></i>';
             }
             const dStars = document.getElementById('dynamicStars');
             const dRatingText = document.getElementById('dynamicRatingText');
@@ -1156,7 +1185,7 @@ function renderProjectPage() {
             const dStars = document.getElementById('dynamicStars');
             const dRatingText = document.getElementById('dynamicRatingText');
             const dViews = document.getElementById('dynamicViews');
-            if(dStars) dStars.innerHTML = '<i class="bi bi-star text-warning"></i>'.repeat(5);
+            if(dStars) dStars.innerHTML = '<i class="bi bi-star" style="color:#fbbf24"></i>'.repeat(5);
             if(dRatingText) dRatingText.textContent = `(${project.average_rating.toFixed(1)}/5 - ${project.ratings_count} ${isEn?"Ratings":"تقييمات"})`;
             if(dViews) dViews.innerHTML = `<i class="bi bi-eye"></i> ${project.views_count}`;
         });

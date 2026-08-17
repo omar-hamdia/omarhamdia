@@ -1,86 +1,116 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omar Hamdia | Portfolio</title>
+    <title>Omar Hamdia | Information Security & Laravel Developer</title>
+    <meta name="description" content="Omar Hamdia — Information Security Student & Laravel Developer. Building secure, scalable web applications from Gaza, Palestine.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="stylesheet" href="style.css">
     <script>
         if(localStorage.getItem('theme') === 'light') { document.documentElement.classList.add('light'); }
-        if(localStorage.getItem('lang') === 'en') { document.documentElement.dir = 'ltr'; document.documentElement.lang = 'en'; }
+        if(localStorage.getItem('lang') === 'ar') { document.documentElement.dir = 'rtl'; document.documentElement.lang = 'ar'; }
     </script>
 </head>
 <body>
+    <!-- Preloader -->
     <div id="preloader" class="preloader">
         <div class="preloader-content">
-            <div class="preloader-text">OMAR.</div>
+            <div class="preloader-icon">
+                <svg viewBox="0 0 60 60" width="60" height="60">
+                    <circle cx="30" cy="30" r="26" stroke="url(#preloadGrad)" stroke-width="3" fill="none" stroke-dasharray="120" stroke-dashoffset="120" class="preloader-circle"/>
+                    <defs><linearGradient id="preloadGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3B82F6"/><stop offset="50%" stop-color="#14B8A6"/><stop offset="100%" stop-color="#22C55E"/></linearGradient></defs>
+                </svg>
+            </div>
+            <div class="preloader-text">
+                <img src="img/logo.png" alt="OH Logo" width="80" height="auto">
+            </div>
             <div class="preloader-bar">
                 <div class="preloader-progress"></div>
             </div>
         </div>
     </div>
 
-    <div class="bg-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+    <!-- Geometric Background Decorations -->
+    <div class="geo-bg" aria-hidden="true">
+        <div class="geo-shape geo-1"></div>
+        <div class="geo-shape geo-2"></div>
+        <div class="geo-shape geo-3"></div>
+        <div class="geo-shape geo-4"></div>
+        <div class="geo-glow geo-glow-1"></div>
+        <div class="geo-glow geo-glow-2"></div>
     </div>
 
+    <!-- Custom Cursor -->
     <div class="cursor-dot"></div>
     <div class="cursor-ring"></div>
 
-    <nav class="side-nav desktop-only">
+    <!-- Side Navigation (Desktop) -->
+    <nav class="side-nav desktop-only" id="sideNav">
         <a href="#home" class="side-link active" data-tooltip="Home"><i class="bi bi-house"></i></a>
         <a href="#about" class="side-link" data-tooltip="About"><i class="bi bi-person"></i></a>
-        <a href="#services" class="side-link" data-tooltip="Services"><i class="bi bi-gear"></i></a>
+        <a href="#skills" class="side-link" data-tooltip="Skills"><i class="bi bi-cpu"></i></a>
         <a href="#projects" class="side-link" data-tooltip="Projects"><i class="bi bi-grid"></i></a>
-        <a href="#testimonials" class="side-link" data-tooltip="Testimonials"><i class="bi bi-chat-quote"></i></a>
         <a href="#contact" class="side-link" data-tooltip="Contact"><i class="bi bi-envelope"></i></a>
     </nav>
 
+    <!-- Top Navigation Bar -->
     <header class="navbar" id="navbar">
-        <a href="#" class="logo grad-text">OMAR.</a>
+        <a href="#" class="logo" style="display:flex; align-items:center; gap:0.5rem; text-decoration:none;">
+            <img src="img/logo.png" alt="OH Logo" width="36" height="auto">
+            <div style="line-height: 1.1;">
+                <div><span style="font-weight:800; color:var(--heading);">OMAR</span> <span style="font-weight:800; color:var(--teal);">HAMDIA</span></div>
+            </div>
+        </a>
+        <nav class="nav-links desktop-only">
+            <a href="#home" class="nav-link" id="navHome">Home</a>
+            <a href="#about" class="nav-link" id="navAbout">About</a>
+            <a href="#skills" class="nav-link" id="navSkills">Skills</a>
+            <a href="#projects" class="nav-link" id="navProjects">Projects</a>
+            <a href="#contact" class="nav-link" id="navContact">Contact</a>
+        </nav>
         <div class="nav-actions">
-            <button id="themeToggle" class="icon-btn"><i class="bi bi-moon-fill"></i></button>
-            <button id="langToggle" class="btn-outline">EN</button>
-            <a href="#" id="whatsappBtn" class="btn-primary nav-cta desktop-only" target="_blank">
-                <i class="bi bi-whatsapp"></i> <span id="whatsappText">WhatsApp</span>
+            <button id="themeToggle" class="icon-btn" aria-label="Toggle theme"><i class="bi bi-moon-fill"></i></button>
+            <button id="langToggle" class="btn-lang">AR</button>
+            <a href="#contact" class="btn-primary nav-cta desktop-only" id="hireMeBtn">
+                <i class="bi bi-shield-check"></i> <span id="hireMeText">Hire Me</span>
             </a>
-            <!-- Mobile Menu Btn removed from here to be placed in bottom nav -->
             <button id="mobileMenuBtn" class="icon-btn mobile-menu-btn"><i class="bi bi-list"></i></button>
         </div>
     </header>
 
+    <!-- Mobile Full-Screen Menu -->
     <div id="mobileMenu" class="mobile-menu">
         <button id="closeMenuBtn" class="icon-btn close-menu"><i class="bi bi-x-lg"></i></button>
         <div class="mobile-links">
-            <a href="#home" class="mobile-link" data-id="home">الرئيسية</a>
-            <a href="#about" class="mobile-link" data-id="about">حولي</a>
-            <a href="#services" class="mobile-link" data-id="services">خدماتي</a>
-            <a href="#projects" class="mobile-link" data-id="projects">مشاريعي</a>
-            <a href="#testimonials" class="mobile-link" data-id="testimonials">آراء العملاء</a>
-            <a href="#contact" class="mobile-link" data-id="contact">تواصل معي</a>
+            <a href="#home" class="mobile-link" data-id="home">Home</a>
+            <a href="#about" class="mobile-link" data-id="about">About</a>
+            <a href="#skills" class="mobile-link" data-id="skills">Skills</a>
+            <a href="#projects" class="mobile-link" data-id="projects">Projects</a>
+            <a href="#contact" class="mobile-link" data-id="contact">Contact</a>
         </div>
     </div>
 
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-bottom-nav">
         <a href="#home" class="bottom-link active"><i class="bi bi-house-door-fill"></i></a>
+        <a href="#about" class="bottom-link"><i class="bi bi-person-fill"></i></a>
+        <a href="#skills" class="bottom-link"><i class="bi bi-cpu-fill"></i></a>
         <a href="#projects" class="bottom-link"><i class="bi bi-grid-1x2-fill"></i></a>
-        <a href="#services" class="bottom-link"><i class="bi bi-tools"></i></a>
         <a href="#contact" class="bottom-link"><i class="bi bi-chat-dots-fill"></i></a>
     </nav>
 
     <main>
+        <!-- ===== HERO SECTION ===== -->
         <section id="home" class="hero section">
             <div class="container hero-content">
                 <div class="hero-text">
                     <div class="badge reveal">
-                        <span class="blinking-dot"></span>
+                        <span class="status-dot"></span>
                         <span id="heroAvailable">Available for work</span>
                     </div>
                     <h1 class="reveal reveal-delay-1">
@@ -88,74 +118,121 @@
                         <strong class="grad-text" id="heroName">Omar Hamdia</strong>
                     </h1>
                     <h2 class="scramble-text grad-text reveal reveal-delay-2" id="scrambleText"></h2>
+                    <p class="hero-tagline reveal reveal-delay-2" id="heroTagline">
+                        Secure by design &bull; Develop with purpose &bull; Impact the future.
+                    </p>
                     <p class="hero-desc reveal reveal-delay-3" id="heroDesc"></p>
                     <div class="hero-btns reveal reveal-delay-3">
-                        <a href="#projects" class="btn-primary" id="btnExplore">Explore My Work</a>
-                        <a href="#contact" class="btn-outline" id="btnTalk"><i class="bi bi-whatsapp"></i> Let's Talk</a>
+                        <a href="#projects" class="btn-primary" id="btnExplore">
+                            <i class="bi bi-arrow-down-circle"></i> Explore My Work
+                        </a>
+                        <a href="#contact" class="btn-outline" id="btnTalk">
+                            <i class="bi bi-shield-lock"></i> Let's Collaborate
+                        </a>
                     </div>
                     <div class="social-links reveal reveal-delay-3" id="heroSocials"></div>
                 </div>
                 <div class="hero-image reveal reveal-delay-2">
-                    <div class="img-container">
-                        <img src="img/profile.png" alt="Omar Hamdia">
+                    <div class="hero-avatar-wrapper">
+                        <div class="avatar-ring"></div>
+                        <div class="avatar-ring avatar-ring-2"></div>
+                        <div class="img-container">
+                            <img src="img/profile.png" alt="Omar Hamdia">
+                        </div>
                     </div>
-                    <div class="float-card card-1"><i class="bi bi-lightning-fill"></i> Laravel & PHP</div>
-                    <div class="float-card card-2"><i class="bi bi-code-slash"></i> Full Stack Dev</div>
+                    <div class="float-card card-1"><i class="bi bi-shield-lock-fill"></i> <span>InfoSec</span></div>
+                    <div class="float-card card-2"><i class="bi bi-code-slash"></i> <span>Laravel Dev</span></div>
+                    <div class="float-card card-3"><i class="bi bi-database-fill-gear"></i> <span>Full Stack</span></div>
                 </div>
+            </div>
+            <!-- Scroll indicator -->
+            <div class="scroll-indicator reveal reveal-delay-3">
+                <div class="scroll-line"></div>
+                <span id="scrollText">Scroll</span>
             </div>
         </section>
 
+        <!-- ===== ABOUT SECTION ===== -->
         <section id="about" class="about section">
-            <div class="container grid-2">
-                <div class="about-image reveal">
-                    <img src="img/profile.png" alt="Omar Hamdia">
-                    <div class="stat-box box-1">
-                        <h3 class="grad-text"><span data-count="1" class="counter">0</span>+</h3>
-                        <p id="statExp">Years Experience</p>
-                    </div>
-                    <div class="stat-box box-2">
-                        <h3 class="grad-text"><span data-count="3" class="counter">0</span>+</h3>
-                        <p id="statProj">Projects Done</p>
-                    </div>
-                </div>
-                <div class="about-content">
-                    <div class="section-label reveal" id="aboutLabel">About Me</div>
-                    <h2 class="section-title grad-text reveal reveal-delay-1" id="aboutTitle"></h2>
-                    <p class="reveal reveal-delay-2" id="aboutContent"></p>
-                    <div class="skills-wrapper reveal reveal-delay-3">
-                        <h4 id="skillsTitle">Tech Stack</h4>
-                        <div class="skills-grid" id="skillsGrid"></div>
-                    </div>
-                    <a href="cv.html" target="_blank" class="btn-primary reveal reveal-delay-3" id="btnDownloadCv"><i class="bi bi-file-earmark-person"></i> View CV</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="services" class="services section">
             <div class="container">
                 <div class="section-header text-center reveal">
-                    <div class="section-label" id="servicesLabel">What I Do</div>
-                    <h2 class="section-title grad-text" id="servicesTitle">My Services</h2>
+                    <div class="section-label" id="aboutLabel">Get to know me</div>
+                    <h2 class="section-title" id="aboutTitle">About <span class="grad-text">Me</span></h2>
                 </div>
-                <div class="grid-3" id="servicesGrid"></div>
+                <div class="about-grid">
+                    <div class="about-image reveal">
+                        <div class="about-img-wrapper">
+                            <img src="img/profile.png" alt="Omar Hamdia">
+                            <div class="about-img-overlay"></div>
+                        </div>
+                    </div>
+                    <div class="about-content reveal reveal-delay-1">
+                        <p class="about-text" id="aboutContent"></p>
+                        <div class="about-stats">
+                            <div class="stat-item">
+                                <h3 class="grad-text"><span data-count="1" class="counter">0</span>+</h3>
+                                <p id="statExp">Years Experience</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3 class="grad-text"><span data-count="4" class="counter">0</span>+</h3>
+                                <p id="statProj">Projects Done</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3 class="grad-text"><span data-count="3" class="counter">0</span>+</h3>
+                                <p id="statClients">Happy Clients</p>
+                            </div>
+                        </div>
+                        <a href="cv.html" target="_blank" class="btn-primary" id="btnDownloadCv">
+                            <i class="bi bi-file-earmark-person"></i> View CV
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
+        <!-- ===== SKILLS SECTION ===== -->
+        <section id="skills" class="skills section">
+            <div class="container">
+                <div class="section-header text-center reveal">
+                    <div class="section-label" id="skillsLabel">What I Know</div>
+                    <h2 class="section-title" id="skillsSectionTitle">My <span class="grad-text">Skills</span></h2>
+                </div>
+                <div class="skills-showcase reveal reveal-delay-1">
+                    <div class="skills-category" id="skillsDev">
+                        <h4><i class="bi bi-code-slash"></i> <span id="skillsDevTitle">Development</span></h4>
+                        <div class="skills-grid" id="skillsDevGrid"></div>
+                    </div>
+                    <div class="skills-category" id="skillsSec">
+                        <h4><i class="bi bi-shield-lock"></i> <span id="skillsSecTitle">Security & Tools</span></h4>
+                        <div class="skills-grid" id="skillsSecGrid"></div>
+                    </div>
+                </div>
+                <!-- Services sub-section -->
+                <div class="section-header text-center reveal" style="margin-top: 5rem;">
+                    <div class="section-label" id="servicesLabel">What I Do</div>
+                    <h2 class="section-title" id="servicesTitle">My <span class="grad-text">Services</span></h2>
+                </div>
+                <div class="services-grid" id="servicesGrid"></div>
+            </div>
+        </section>
+
+        <!-- ===== PROJECTS SECTION ===== -->
         <section id="projects" class="projects section">
             <div class="container">
                 <div class="section-header text-center reveal">
                     <div class="section-label" id="projectsLabel">Portfolio</div>
-                    <h2 class="section-title grad-text" id="projectsTitle">Featured Work</h2>
+                    <h2 class="section-title" id="projectsTitle">Featured <span class="grad-text">Work</span></h2>
                 </div>
                 <div class="bento-grid" id="projectsGrid"></div>
             </div>
         </section>
 
+        <!-- ===== TESTIMONIALS SECTION ===== -->
         <section id="testimonials" class="testimonials section">
             <div class="container">
                 <div class="section-header text-center reveal">
                     <div class="section-label" id="testLabel">Reviews</div>
-                    <h2 class="section-title grad-text" id="testTitle">Client Testimonials</h2>
+                    <h2 class="section-title" id="testTitle">Client <span class="grad-text">Testimonials</span></h2>
                 </div>
                 <div class="swiper testimonials-slider reveal reveal-delay-1">
                     <div class="swiper-wrapper" id="testimonialsWrapper"></div>
@@ -164,42 +241,114 @@
             </div>
         </section>
 
+        <!-- ===== CONTACT SECTION ===== -->
         <section id="contact" class="contact section">
             <div class="container">
                 <div class="section-header text-center reveal">
                     <div class="section-label" id="contactLabel">Get In Touch</div>
-                    <h2 class="section-title grad-text" id="contactTitle">Contact Me</h2>
+                    <h2 class="section-title" id="contactTitle">Contact <span class="grad-text">Me</span></h2>
                 </div>
-                <form id="contactForm" class="contact-form reveal reveal-delay-1">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <input type="text" id="formName" required placeholder=" ">
-                            <label for="formName" id="lblFormName">Full Name</label>
+                <div class="contact-layout">
+                    <div class="contact-info reveal">
+                        <div class="contact-card">
+                            <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
+                            <div>
+                                <h4 id="contactEmailLabel">Email</h4>
+                                <a href="mailto:omar@example.com" id="contactEmailVal">omar@example.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-icon"><i class="bi bi-phone-fill"></i></div>
+                            <div>
+                                <h4 id="contactPhoneLabel">Phone</h4>
+                                <a href="tel:+972567557774" id="contactPhoneVal">+972 567 557 774</a>
+                            </div>
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                            <div>
+                                <h4 id="contactLocationLabel">Location</h4>
+                                <span id="contactLocationVal">Gaza, Palestine</span>
+                            </div>
+                        </div>
+                        <div class="contact-socials" id="contactSocials"></div>
+                    </div>
+                    <form id="contactForm" class="contact-form reveal reveal-delay-1">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <input type="text" id="formName" required placeholder=" ">
+                                <label for="formName" id="lblFormName">Full Name</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="formEmail" required placeholder=" ">
+                                <label for="formEmail" id="lblFormEmail">Email</label>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <input type="email" id="formEmail" required placeholder=" ">
-                            <label for="formEmail" id="lblFormEmail">Email</label>
+                            <input type="text" id="formSubject" required placeholder=" ">
+                            <label for="formSubject" id="lblFormSubject">Subject</label>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="formSubject" required placeholder=" ">
-                        <label for="formSubject" id="lblFormSubject">Subject</label>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="formMessage" rows="5" required placeholder=" "></textarea>
-                        <label for="formMessage" id="lblFormMessage">Message</label>
-                    </div>
-                    <button type="submit" class="btn-primary w-full" id="btnSubmit">Send Message</button>
-                </form>
+                        <div class="form-group">
+                            <textarea id="formMessage" rows="5" required placeholder=" "></textarea>
+                            <label for="formMessage" id="lblFormMessage">Message</label>
+                        </div>
+                        <button type="submit" class="btn-primary w-full" id="btnSubmit">
+                            <i class="bi bi-send-fill"></i> Send Message
+                        </button>
+                    </form>
+                </div>
             </div>
         </section>
     </main>
 
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
-        <div class="container text-center">
-            <h2 class="logo grad-text mb-4">OMAR.</h2>
-            <div class="social-links justify-center mb-4" id="footerSocials"></div>
-            <p class="text-muted" id="footerCopy" style="margin-top: 0.8rem;">© 2026 Omar Hamdia. All rights reserved.</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h2 class="logo" style="display:flex; align-items:center; gap:0.5rem; text-decoration:none;">
+                        <img src="img/logo.png" alt="OH Logo" width="36" height="auto">
+                        <div style="line-height: 1.1;">
+                            <div><span style="font-weight:800; color:var(--heading);">OMAR</span> <span style="font-weight:800; color:var(--teal);">HAMDIA</span></div>
+                        </div>
+                    </h2>
+                    <p class="footer-tagline" id="footerTagline">Secure by design. Develop with purpose.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4 id="footerQuickLinks">Quick Links</h4>
+                        <a href="#home" id="footerHome">Home</a>
+                        <a href="#about" id="footerAbout">About</a>
+                        <a href="#projects" id="footerProjects">Projects</a>
+                        <a href="#contact" id="footerContact">Contact</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4 id="footerConnectTitle">Connect</h4>
+                        <div class="footer-contact-item">
+                            <i class="bi bi-geo-alt"></i>
+                            <span id="footerLocation">Gaza, Palestine</span>
+                        </div>
+                        <div class="footer-contact-item">
+                            <i class="bi bi-envelope"></i>
+                            <a href="mailto:omar@example.com" id="footerEmail">omar@example.com</a>
+                        </div>
+                        <div class="footer-contact-item">
+                            <i class="bi bi-phone"></i>
+                            <a href="tel:+972567557774" id="footerPhone">+972 567 557 774</a>
+                        </div>
+                        <div class="footer-contact-item">
+                            <i class="bi bi-globe"></i>
+                            <a href="#" id="footerWebsite">omarhamdia.com</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-social">
+                    <div class="social-links" id="footerSocials"></div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p id="footerCopy">&copy; 2026 Omar Hamdia. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 

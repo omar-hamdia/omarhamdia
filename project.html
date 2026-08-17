@@ -14,17 +14,25 @@
     </script>
 </head>
 <body class="project-page">
-    <div class="bg-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+    <div class="geo-bg" aria-hidden="true">
+        <div class="geo-shape geo-1"></div>
+        <div class="geo-shape geo-2"></div>
+        <div class="geo-shape geo-3"></div>
+        <div class="geo-shape geo-4"></div>
+        <div class="geo-glow geo-glow-1"></div>
+        <div class="geo-glow geo-glow-2"></div>
     </div>
 
     <div class="cursor-dot"></div>
     <div class="cursor-ring"></div>
 
     <header class="navbar scrolled" id="navbar">
-        <a href="index.html" class="logo grad-text">OMAR.</a>
+        <a href="index.html" class="logo" style="display:flex; align-items:center; gap:0.5rem; text-decoration:none;">
+            <img src="img/logo.png" alt="OH Logo" width="36" height="auto">
+            <div style="line-height: 1.1;">
+                <div><span style="font-weight:800; color:var(--heading);">OMAR</span> <span style="font-weight:800; color:var(--teal);">HAMDIA</span></div>
+            </div>
+        </a>
         <div class="nav-actions">
             <a href="index.html" class="nav-link" id="navBack">← Back to Home</a>
             <button id="themeToggle" class="icon-btn"><i class="bi bi-moon-fill"></i></button>
